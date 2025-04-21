@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",                         // Usa una versión moderna de JavaScript
+    "module": "commonjs",                        // Utiliza el sistema de módulos común de Node.js
+    "moduleResolution": "node",                  // Resuelve los módulos de manera similar a Node.js
+    "jsx": "react-jsx",                          // Habilita el soporte de JSX en TypeScript
+    "skipLibCheck": true,                        // Evita comprobar las bibliotecas para mejorar el rendimiento
+    "esModuleInterop": true,                     // Permite la interoperabilidad entre CommonJS y ESModules
+    "resolveJsonModule": true,                   // Permite importar archivos JSON como módulos
+    "noEmit": true,                              // No emite archivos .js, solo realiza la compilación
+    "strict": true,                              // Habilita las comprobaciones estrictas en TypeScript
+    "isolatedModules": true,                     // Asegura que todos los archivos se puedan compilar por separado
+    "allowJs": true,                             // Permite archivos .js en el proyecto
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],    // Usa las bibliotecas de ES2020 y DOM
+    "moduleResolution": "node",                  // Usa resolución de módulos tipo Node.js
+    "allowImportingTsExtensions": true,          // Permite importar archivos con extensión .ts o .tsx
+    "moduleDetection": "force"                   // Forzar detección de módulos
+  },
+  "include": [
+    "src/**/*.ts",                               // Incluye todos los archivos .ts
+    "src/**/*.tsx",                              // Incluye todos los archivos .tsx (componentes de React)
+    "src/**/*.js"                                // Incluye todos los archivos .js si deseas trabajar con ellos
+  ]
+}
