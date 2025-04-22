@@ -1,24 +1,24 @@
-// src/pages/EstacionesLista.tsx
 import React from "react";
 
-// Ejemplo de datos; en producción probablemente vengas de un fetch o prop
 const estaciones = [
-  { id: 1, nombre: "Herbario" },
-  { id: 2, nombre: "Mirador del Río" },
-  { id: 3, nombre: "Zona de Aves" },
-  // …añade más estaciones según necesites
+  { id: 14, nombre: "Herbario" },
+  { id: 13, nombre: "Lácteos" },
+  { id: 15, nombre: "Museo" },
+  // Puedes agregar más estaciones
 ];
 
 const EstacionesLista: React.FC = () => {
   return (
-    <div className="p-3">
-      <h2 className="text-lg font-semibold mb-2">Estaciones</h2>
-      <ul className="space-y-1">
+    <div className="max-w-md mx-auto p-4 bg-white shadow-lg rounded-xl">
+      <h2 className="text-2xl font-bold text-green-700 mb-4 text-center">
+        Estaciones Sendero Ecológico
+      </h2>
+      <ul className="space-y-3">
         {estaciones.map((est) => (
           <li key={est.id}>
             <a
               href={`http://localhost:4200/estacion/${est.id}`}
-              className="block bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded w-full text-left text-sm"
+              className="block w-full px-4 py-2 bg-blue-500 text-white rounded-lg text-center hover:bg-blue-600 transition-colors duration-200 shadow-md"
             >
               {est.nombre}
             </a>
