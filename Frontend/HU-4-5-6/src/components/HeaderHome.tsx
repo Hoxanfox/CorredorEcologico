@@ -1,7 +1,8 @@
 const HeaderHome = () => {
   return (
-    <header className="bg-white shadow px-4 py-3 border-b">
-      <h1 className="text-xl font-bold text-gray-800">Sendero Ecológico Unillanos</h1>
+    <header className="w-full bg-red-600 px-4 py-3 shadow border-b flex items-center justify-between">
+      <h1 className="text-xl font-bold text-white">Sendero Ecológico Unillanos</h1>
+      {/* Aquí podrías agregar un botón o ícono si lo necesitas */}
     </header>
   );
 };
