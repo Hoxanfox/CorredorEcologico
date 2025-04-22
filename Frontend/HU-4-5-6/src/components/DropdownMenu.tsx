@@ -3,6 +3,8 @@ import { EstacionesButton } from "./buttons/EstacionesButton";
 import { MapaButton } from "./buttons/MapaButton";
 import { ActividadesButton } from "./buttons/ActividadesButton";
 import { LogoutButton } from "./buttons/LogoutButton";
+import { UserIcon } from "@heroicons/react/24/solid";  // Icono de usuario
+import { Bars3Icon } from "@heroicons/react/24/solid";  // Icono de tres rayas
 
 const DropdownMenu: React.FC = () => {
   const isAdmin = false;
