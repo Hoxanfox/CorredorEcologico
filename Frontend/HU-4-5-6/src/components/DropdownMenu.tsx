@@ -1,28 +1,55 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { EstacionesButton } from "./buttons/EstacionesButton";
 import { MapaButton } from "./buttons/MapaButton";
 import { ActividadesButton } from "./buttons/ActividadesButton";
 import { LogoutButton } from "./buttons/LogoutButton";
 
 const DropdownMenu: React.FC = () => {
-  const isAdmin = false; // cambia a true para probar
+  const isAdmin = false;
+  const [username, setUsername] = useState("Invitado");
+
+  useEffect(() => {
+    const updateUsername = () => {
+      const raw = localStorage.getItem("usuario");
+      if (raw) {
+        try {
+          const parsed = JSON.parse(raw);
+          setUsername(parsed.username ?? raw);
+        } catch {
+          setUsername(raw);
+        }
+      }
+    };
+
+    updateUsername();
+
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === "usuario") {
+        updateUsername();
+      }
+    };
+    window.addEventListener("storage", onStorage);
+
+    return () => {
+      window.removeEventListener("storage", onStorage);
+    };
+  }, []);
 
   return (
-    <nav className="inline-flex items-center gap-4 px-4 py-2 bg-white text-sm text-[rgb(107,75,64)] font-medium">
-      {/* Asegúrate de que no haya estilos que causen puntos indeseados */}
-      <div className="hover:text-blue-600 transition-colors">
+    <nav className="inline-flex items-center gap-4 px-4 py-2 bg-[#00873f] text-white text-3xl font-sans">
+      <div className="hover:text-green-200 transition-colors">
         <EstacionesButton isAdmin={isAdmin} />
       </div>
-      <div className="hover:text-blue-600 transition-colors">
+      <div className="hover:text-green-200 transition-colors">
         <MapaButton />
       </div>
-      <div className="hover:text-blue-600 transition-colors">
+      <div className="hover:text-green-200 transition-colors">
         <ActividadesButton />
       </div>
-      <div className="hover:text-blue-600 transition-colors cursor-default">
-        deivid
+      <div className="cursor-default text-white/80">
+        {username}
       </div>
-      <div className="hover:text-blue-600 transition-colors">
+      <div className="hover:text-green-200 transition-colors">
         <LogoutButton />
       </div>
     </nav>

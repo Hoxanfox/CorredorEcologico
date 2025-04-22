@@ -1,14 +1,14 @@
-import DropdownMenu from "../components/DropdownMenu"; // Asegúrate de que esté bien importado
-import logoUnillanos from "../assets/imagenUnillanos.png"; // Ajusta la ruta según sea necesario
+import DropdownMenu from "../components/DropdownMenu";
+import logoUnillanos from "../assets/imagenUnillanos.png";
 
 const HeaderHome = () => {
   return (
-    <div className="flex items-center justify-between px-6 py-4 text-white ">
+    <div className="flex items-center justify-between px-6 py-4 bg-[#00873f] text-3xl  text-white">
       {/* Logo y eslogan alineados a la izquierda */}
-      <div className="flex items-center gap-3">
-        <img src={logoUnillanos} alt="Logo Unillanos" className="h-12 w-auto" />
-        <div className="text-[rgb(107,75,64)] text-3xl font-semibold font-sans">
-          <p>Sendero Ecológico Unillanos</p>
+      <div className="flex items-center gap-4">
+        <img src={logoUnillanos} alt="Logo Unillanos" className="h-25 w-auto bg-transparent" />
+        <div className="text-white  font-semibold font-sans">
+          Sendero ecológico
         </div>
       </div>
 

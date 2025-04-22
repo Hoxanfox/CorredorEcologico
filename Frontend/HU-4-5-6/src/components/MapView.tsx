@@ -111,27 +111,27 @@ const MapView: React.FC = () => {
         console.error("❌ Error al cargar estaciones:", err);
         setEstaciones([
           {
-            id: 1,
+            id: 13,
             position: senderoCoords[0],
-            label: "Inicio del recorrido",
-            numero: "1",
-            resumen: "Esta es la estación inicial",
+            label: "Estacion 13",
+            numero: "13",
+            resumen: "esta estacion es donde se hacen lacteos ",
             iconUrl: icon1,
           },
           {
-            id: 2,
+            id: 14,
             position: senderoCoords[1],
-            label: "Punto medio",
-            numero: "2",
-            resumen: "Aquí puedes descansar",
+            label: "Estacion 14",
+            numero: "14",
+            resumen: "en esta estacion se guardan tesoros y plantas",
             iconUrl: icon2,
           },
           {
-            id: 3,
+            id: 15,
             position: senderoCoords[senderoCoords.length - 1],
-            label: "Final del recorrido",
-            numero: "3",
-            resumen: "Fin del recorrido",
+            label: "Estacion 15",
+            numero: "15",
+            resumen: "en esta estacion esta la historia y esqueletos",
             iconUrl: icon3,
           },
         ]);
@@ -167,7 +167,7 @@ const MapView: React.FC = () => {
   }, []);
 
   const navigateToEstacionDetail = (id: number) => {
-    navigate(`/estacion/${id}`);
+    window.location.href = `http://localhost:4200/estacion/${id}`;
   };
 
   if (loading) {

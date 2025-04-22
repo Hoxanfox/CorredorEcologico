@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export const MapaButton: React.FC = () => (
   <div>
     <Link
-      to="/"
+      to="/mapa"
       className="w-full block text-left hover:text-blue-600"
     >
       Mapa

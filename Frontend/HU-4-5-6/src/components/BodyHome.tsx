@@ -1,9 +1,21 @@
-import HeaderHome from "./HeaderHome";
-import MapView from "./MapView"; // componente del mapa interactivo
+// src/pages/BodyHome.tsx
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
-const BodyHome = () => {
+import MapView from "./MapView"; // Componente del mapa interactivo
+
+const BodyHome: React.FC = () => {
+  const { usuario } = useParams<{ usuario: string }>();
+
+  // Guardar el usuario en localStorage cuando cambie
+  useEffect(() => {
+    if (usuario) {
+      localStorage.setItem("usuario", usuario);
+    }
+  }, [usuario]);
+
   return (
-    <div className="flex flex-col  ">
+    <div className="flex flex-col">
       <MapView />
     </div>
   );

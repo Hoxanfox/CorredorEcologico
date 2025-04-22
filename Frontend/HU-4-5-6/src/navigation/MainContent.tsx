@@ -6,22 +6,20 @@ import EstacionesLista from "../pages/EstacionesLista";
 import {Actividades} from "../pages/Actividades";
 //import Logout from "../pages/Logout";
 import { getAdminRoutes } from "../components/admin/AdminRoutes";
+import NotFound from "../pages/NotFound"; // Ajusta la ruta según tu estructura
 
 const MainContent: React.FC = () => {
   const apiUrl = "http://localhost:8080";
 
   return (
     <Routes>
-      {/* públicas */}
-      <Route path="/" element={<BodyHome />} />
-      <Route path="/estacion/:id" element={<EstacionDetail />} />
-      <Route path="/estacionesLista" element={<EstacionesLista />} />
-      <Route path="/actividades" element={<Actividades />} />
-      <Route path="/logout" element={<EstacionesLista/>} />
+  {/* públicas */}
+  <Route path="/mapa/:usuario" element={<BodyHome />} />
 
-      {/* admin */}
-      {getAdminRoutes(apiUrl)}
-    </Routes>
+  {/* Ruta 404 - debe ir al final */}
+  <Route path="*" element={<NotFound />} />
+</Routes>
+
   );
 };
 
