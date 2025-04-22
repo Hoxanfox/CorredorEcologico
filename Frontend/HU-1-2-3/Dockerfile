@@ -3,7 +3,7 @@ FROM node:18-alpine AS build
 
 WORKDIR /app
 
-COPY package.json ./
+COPY package.json package-lock.json ./
 RUN npm install
 
 COPY . .
@@ -12,10 +12,15 @@ RUN npm run build -- --configuration production
 # Etapa 2: Servir con Nginx
 FROM nginx:alpine
 
-COPY --from=build /app/dist /usr/share/nginx/html
+# Borrar archivos html por defecto
+RUN rm -rf /usr/share/nginx/html/*
 
-# (opcional) Copiar configuración personalizada
-# COPY nginx.conf /etc/nginx/nginx.conf
+# Copiar archivos del build
+COPY --from=build /app/dist/sendero /usr/share/nginx/html
+
+
+# Copiar configuración personalizada de Nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 

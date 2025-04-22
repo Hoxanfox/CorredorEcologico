@@ -11,15 +11,13 @@ export const EstacionesButton = forwardRef<HTMLAnchorElement, EstacionesButtonPr
     const to = isAdmin ? "/admin/estaciones" : "/estacionesLista";
 
     return (
-      <li>
-        <Link
-          ref={ref} // <- Aquí aplicamos la ref al elemento del DOM
-          to={to}
-          className="w-full block text-left hover:text-blue-600"
-        >
-          Estaciones
-        </Link>
-      </li>
+      <Link
+        ref={ref} // <- Aquí aplicamos la ref al elemento del DOM
+        to={to}
+        className="w-full block text-left hover:text-blue-600"
+      >
+        Estaciones
+      </Link>
     );
   }
 );

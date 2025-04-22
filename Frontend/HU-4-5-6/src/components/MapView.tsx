@@ -69,7 +69,7 @@ const isNearSendero = (
 const MapView: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const center: L.LatLngTuple = [4.268387, -73.568318];
+  const center: L.LatLngTuple = [4.074410, -73.584087];
   const [zoom] = useState<number>(location.state?.zoom || 22);
   const [estaciones, setEstaciones] = useState<Estacion[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -120,7 +120,7 @@ const MapView: React.FC = () => {
           },
           {
             id: 2,
-            position: senderoCoords[9],
+            position: senderoCoords[1],
             label: "Punto medio",
             numero: "2",
             resumen: "Aquí puedes descansar",
