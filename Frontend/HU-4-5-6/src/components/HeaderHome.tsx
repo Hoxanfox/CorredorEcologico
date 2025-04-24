@@ -7,9 +7,8 @@ const HeaderHome = () => {
       {/* Logo y eslogan alineados a la izquierda */}
       <div className="flex items-center gap-4">
         <img src={logoUnillanos} alt="Logo Unillanos" className="h-25 w-auto bg-transparent" />
-        <div className="text-white  font-semibold font-sans">
-          Sendero ecológico
-        </div>
+        
+        <a href="http://localhost:4200/user-dashboard" className="text-white  font-semibold font-sans">Sendero Ecológico</a>
       </div>
 
       {/* Menú de navegación alineado a la derecha */}

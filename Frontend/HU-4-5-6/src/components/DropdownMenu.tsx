@@ -3,8 +3,8 @@ import { EstacionesButton } from "./buttons/EstacionesButton";
 import { MapaButton } from "./buttons/MapaButton";
 import { ActividadesButton } from "./buttons/ActividadesButton";
 import { LogoutButton } from "./buttons/LogoutButton";
-import { UserIcon } from "@heroicons/react/24/solid";  // Icono de usuario
-import { Bars3Icon } from "@heroicons/react/24/solid";  // Icono de tres rayas
+import { Bars3Icon } from "@heroicons/react/24/solid"; // Icono de tres rayas
+import DropdownMenuMobile from "./dropdownMenuResponsive/DropdownMenuMobile";  // Asegúrate de importar el componente móvil
 
 const DropdownMenu: React.FC = () => {
   const isAdmin = false;
@@ -31,27 +31,22 @@ const DropdownMenu: React.FC = () => {
       }
     };
     window.addEventListener("storage", onStorage);
-
-    return () => {
-      window.removeEventListener("storage", onStorage);
-    };
+    return () => window.removeEventListener("storage", onStorage);
   }, []);
 
   return (
-    <nav className="inline-flex items-center gap-4 px-4 py-2 bg-[#00873f] text-white text-3xl font-sans">
-      <div className="hover:text-green-200 transition-colors">
+    <nav className="w-full bg-[#00873f] text-white font-sans">
+      {/* Mostrar DropdownMenuMobile hasta pantallas de 768px */}
+      <div className="md:hidden">
+        <DropdownMenuMobile username={username} isAdmin={isAdmin} />
+      </div>
+
+      {/* 🔹 Menú de escritorio */}
+      <div className="hidden md:flex items-center gap-6 px-6 py-4 text-lg text-[30px]">
         <EstacionesButton isAdmin={isAdmin} />
-      </div>
-      <div className="hover:text-green-200 transition-colors">
         <MapaButton />
-      </div>
-      <div className="hover:text-green-200 transition-colors">
         <ActividadesButton />
-      </div>
-      <div className="cursor-default text-white/80">
-        {username}
-      </div>
-      <div className="hover:text-green-200 transition-colors">
+        <span className="text-white/80">{username}</span>
         <LogoutButton />
       </div>
     </nav>
