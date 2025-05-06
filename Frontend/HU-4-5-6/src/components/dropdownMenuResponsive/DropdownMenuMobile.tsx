@@ -14,7 +14,7 @@ const DropdownMenuMobile: React.FC<DropdownMenuMobileProps> = ({ username, isAdm
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="w-full">
+    <nav className="w-full z-99">
       {/* 🔹 Header */}
       <div className="flex items-center justify-between px-4 py-3 bg-[#00873f] text-white">
         {/* Botón de abrir y cerrar el menú */}
@@ -33,7 +33,7 @@ const DropdownMenuMobile: React.FC<DropdownMenuMobileProps> = ({ username, isAdm
       {/* 🔹 Menú desplegable */}
       {menuOpen && (
         <div
-          className="flex flex-col gap-4 px-4 py-4 border-t border-white/20 bg-[#5e8c6a] shadow-lg fixed top-0 right-0 z-50"
+          className="flex flex-col gap-4 z-[1000] px-4 py-4 border-t border-white/20 bg-[#5e8c6a] shadow-lg fixed top-0 right-0 z-50"
           style={{ top: '80px', right: '0', width: 'auto', maxWidth: '250px' }} // Ajusta la posición hacia la esquina superior derecha
         >
           <EstacionesButton isAdmin={isAdmin} />

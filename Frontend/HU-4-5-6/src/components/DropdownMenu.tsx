@@ -37,7 +37,7 @@ const DropdownMenu: React.FC = () => {
   return (
     <nav className="w-full bg-[#00873f] text-white font-sans">
       {/* Mostrar DropdownMenuMobile hasta pantallas de 768px */}
-      <div className="md:hidden">
+      <div className="md:hidden z-[50]">
         <DropdownMenuMobile username={username} isAdmin={isAdmin} />
       </div>
 

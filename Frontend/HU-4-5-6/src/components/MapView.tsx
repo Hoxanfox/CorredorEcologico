@@ -5,6 +5,8 @@ import {
   Marker,
   Popup,
   Polyline,
+  Circle,
+  useMap,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -18,6 +20,10 @@ import icon3 from "../assets/images.png";
 import iconImg from "../assets/images.png";
 
 // Interfaces
+interface MapViewProps {
+  selectedStationId: number | null;
+}
+
 interface Estacion {
   id: number;
   position: [number, number];
@@ -48,9 +54,7 @@ const getDistanceFromLatLonInMeters = (
   const dLon = toRad(lon2 - lon1);
   const a =
     Math.sin(dLat / 2) ** 2 +
-    Math.cos(toRad(lat1)) *
-      Math.cos(toRad(lat2)) *
-      Math.sin(dLon / 2) ** 2;
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
 };
@@ -66,16 +70,31 @@ const isNearSendero = (
   });
 };
 
-const MapView: React.FC = () => {
+// Componente para centrar mapa en usuario
+const UserMarker: React.FC<{ position: [number, number] }> = ({ position }) => {
+  const map = useMap();
+
+  useEffect(() => {
+    map.flyTo(position, map.getZoom());
+  }, [position]);
+
+  return (
+    <Marker position={position}>
+      <Popup>
+        <strong>📍 Estás aquí</strong>
+      </Popup>
+    </Marker>
+  );
+};
+
+const MapView: React.FC<MapViewProps> = ({ selectedStationId }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const center: L.LatLngTuple = [4.074410, -73.584087];
   const [zoom] = useState<number>(location.state?.zoom || 22);
   const [estaciones, setEstaciones] = useState<Estacion[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [userPosition, setUserPosition] = useState<[number, number] | null>(
-    null
-  );
+  const [userPosition, setUserPosition] = useState<[number, number] | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -115,7 +134,7 @@ const MapView: React.FC = () => {
             position: senderoCoords[0],
             label: "Estacion 13",
             numero: "13",
-            resumen: "esta estacion es donde se hacen lacteos ",
+            resumen: "esta estación es donde se hacen lácteos",
             iconUrl: icon1,
           },
           {
@@ -123,7 +142,7 @@ const MapView: React.FC = () => {
             position: senderoCoords[1],
             label: "Estacion 14",
             numero: "14",
-            resumen: "en esta estacion se guardan tesoros y plantas",
+            resumen: "en esta estación se guardan tesoros y plantas",
             iconUrl: icon2,
           },
           {
@@ -131,7 +150,7 @@ const MapView: React.FC = () => {
             position: senderoCoords[senderoCoords.length - 1],
             label: "Estacion 15",
             numero: "15",
-            resumen: "en esta estacion esta la historia y esqueletos",
+            resumen: "en esta estación está la historia y esqueletos",
             iconUrl: icon3,
           },
         ]);
@@ -146,25 +165,41 @@ const MapView: React.FC = () => {
       console.warn("📵 Geolocalización no soportada");
       return;
     }
-
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const { latitude, longitude } = pos.coords;
-        console.log("📍 Ubicación actual:", latitude, longitude);
-
-        if (isNearSendero(latitude, longitude)) {
-          console.log("✅ Cerca del sendero, mostrando ubicación");
+  
+    const updatePosition = () => {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const { latitude, longitude } = pos.coords;
+  
+          console.log("📍 Ubicación actual:", latitude, longitude);
+  
+          // Guardamos la posición del usuario sin validarla contra el sendero
           setUserPosition([latitude, longitude]);
-        } else {
-          console.log("🚫 Lejos del sendero");
+  
+          if (isNearSendero(latitude, longitude)) {
+            console.log("✅ Cerca del sendero");
+          } else {
+            console.log("⚠️ Lejos del sendero");
+          }
+        },
+        (err) => {
+          console.error("❌ Error de geolocalización:", err.message);
+        },
+        {
+          enableHighAccuracy: true,
+          maximumAge: 0,
+          timeout: 10000,
         }
-      },
-      (err) => {
-        console.error("❌ Error de geolocalización:", err.message);
-      },
-      { enableHighAccuracy: true }
-    );
+      );
+    };
+  
+    updatePosition();
+    const intervalId = setInterval(updatePosition, 10000);
+  
+    return () => clearInterval(intervalId);
   }, []);
+  
+  
 
   const navigateToEstacionDetail = (id: number) => {
     window.location.href = `http://localhost:4200/estacion/${id}`;
@@ -179,12 +214,7 @@ const MapView: React.FC = () => {
   }
 
   return (
-    <MapContainer
-      center={center}
-      zoom={zoom}
-      scrollWheelZoom
-      className="h-screen w-full"
-    >
+    <MapContainer center={center} zoom={zoom} scrollWheelZoom className="h-screen w-full">
       <TileLayer
         attribution='&copy; OpenStreetMap contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -201,28 +231,32 @@ const MapView: React.FC = () => {
         });
 
         return (
-          <Marker key={est.id} position={est.position} icon={icon}>
-            <Popup>
-              <h2 className="font-bold">{est.label}</h2>
-              <p>{est.resumen}</p>
-              <button
-                onClick={() => navigateToEstacionDetail(est.id)}
-                className="mt-2 bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded"
-              >
-                Ver detalles
-              </button>
-            </Popup>
-          </Marker>
+          <>
+            <Marker key={est.id} position={est.position} icon={icon}>
+              <Popup>
+                <h2 className="font-bold">{est.label}</h2>
+                <p>{est.resumen}</p>
+                <button
+                  onClick={() => navigateToEstacionDetail(est.id)}
+                  className="mt-2 bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded"
+                >
+                  Ver detalles
+                </button>
+              </Popup>
+            </Marker>
+
+            {selectedStationId === est.id && (
+              <Circle
+                center={est.position}
+                radius={10}
+                pathOptions={{ color: "red", fillColor: "#f87171", fillOpacity: 0.5 }}
+              />
+            )}
+          </>
         );
       })}
 
-      {userPosition && (
-        <Marker position={userPosition}>
-          <Popup>
-            <strong>📍 Estás aquí</strong>
-          </Popup>
-        </Marker>
-      )}
+      {userPosition && <UserMarker position={userPosition} />}
     </MapContainer>
   );
 };
